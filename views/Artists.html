@@ -1,0 +1,26 @@
+  <div infinite-scroll="#" id="myDiv" style="overflow:auto; height:300px;">
+ <table class="table table-striped">
+    <thead>
+      <tr>
+       <th id="head">Image</th>
+       <th id="head">Name</th>
+       <th id="head">Total Albums</th>
+	   <th id="head">Total Tracks</th>
+      </tr>
+    </thead>
+    <tbody>
+	
+      <tr ng-repeat="x in results.artists.results ">
+      <td ng-if="x.has_image == true"><img ng-src="http://catalogv3.nmusic.sapo.pt/artists/{{x.id}}/300" alt="" border=3 height=100 width=100></img></td>
+	  <td ng-if="x.has_image == false"><img ng-src="http://besthqimages.mobi/wp-content/uploads/default-profile-picture-png-pictures-2.png" alt="" border=3 height=100 width=100></img></td>	  	  
+      <td id="text">{{ x.name }}</td>
+      <td id="text">{{ x.albums_count }}</td>
+      <td id="text">{{ x.tracks_count }}</td>
+      </tr>
+	  
+	   <tr ng-if="results.artists.total == 0">
+		  <td colspan="4" id="text">Artists Not Found</td>
+      </tr>
+    </tbody>
+ </table>
+ </div>

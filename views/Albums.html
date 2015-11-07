@@ -1,0 +1,22 @@
+ <table class="table table-striped">
+    <thead>
+      <tr>
+		   <th id="head">Title</th>
+		   <th id="head">Main Artist</th>
+		   <th id="head">Genre</th>
+		   <th id="head">Total Tracks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in results.albums.results">
+		  <td id="text">{{ x.title }}</td>
+		  <td id="text">{{ x.main_artist.name }}</td>
+		  <td id="text">{{ x.genre.name }}</td>
+		  <td id="text">{{ x.total_tracks }}</td>
+      </tr>
+	  
+	   <tr ng-if="results.albums.total == 0">
+		  <td colspan="4" id="text">Albums Not Found</td>
+      </tr>
+    </tbody>
+ </table>

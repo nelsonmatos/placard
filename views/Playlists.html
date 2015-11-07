@@ -1,0 +1,20 @@
+ <table class="table table-striped">
+    <thead>
+      <tr>
+		   <th id="head">Name</th>
+		   <th id="head">Creator Name</th>
+		   <th id="head">Total Tracks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in results.playlists.results">
+		  <td id="text">{{ x.name }}</td>
+		  <td id="text">{{ x.creator.name }}</td>
+		  <td id="text">{{ x.total_tracks }}</td>
+      </tr>
+	  
+	   <tr ng-if="results.playlists.total == 0">
+		  <td colspan="3" id="text">Playlists Not Found</td>
+      </tr>
+    </tbody>
+ </table>

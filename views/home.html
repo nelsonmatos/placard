@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html >
+
+	<script data-require="angular.js@1.4.3" data-semver="1.4.3" src="../js/angular.js"></script>
+	<script src="../js/angular-animate.js"></script>
+
+	<script src= "../app.js"></script>
+	<script src= "../controllers/meo_music_controller.js"></script>
+	<script src= "../services/meo_music_service.js"></script>
+	
+	<link rel="stylesheet" href="../css/angular-material.min.css">
+	
+	    <!-- Angular Material Dependencies -->
+    <script src="../js/angular.min.js"></script>
+    <script src="../js/angular-animate.min.js"></script>
+    <script src="../js/angular-aria.min.js"></script>
+	
+    <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
+    <script src="../js/angular-material.min.js"></script>
+	
+	<link href="../bower_components/angular-material-data-table/dist/md-data-table.min.css" rel="stylesheet" type="text/css"/>
+
+	<!-- module -->
+	<script type="text/javascript" src="../bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+	<script src="../bower_components/x2js/xml2json.js"></script>
+	<script src="../bower_components/x2js/xml2json_.js"></script>
+	<script src="../bower_components/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+	
+
+<head>
+<style>
+.backgroungimage{
+	background-image: url(https://unsplash.it/1920/1080/?random);
+}
+md-toast.md-success-toast-theme {
+    background-color: #37BC9B;
+}
+
+md-toast.md-error-toast-theme {
+    background-color: #DA4453;
+}
+
+.avatar-frame{border: 2px solid #c7b89e;}
+.avatar-frame,.avatar-frame img{
+	width: 50px;
+	height: 50px;	
+	-webkit-border-radius: 30px; /* Saf3+, Chrome */
+	border-radius: 30px; /* Opera 10.5, IE 9 */
+	/*-moz-border-radius: 30px;  Disabled for FF1+ */
+}
+
+.hand{
+	cursor: pointer;
+}
+</style>
+</head>
+<body ng-app="MyApp" ng-controller="DemoCtrl" ng-class="{backgroungimage:visibleScreen == 0 || visibleScreen == 1}">
+
+<div>
+<div ng-if="visibleScreen == null" style="padding-top: 250px;" layout-align="center center" layout="row" layout-sm="column" layout-align="space-around">
+   <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+  
+<div ng-if="visibleScreen == 0 || visibleScreen == 1" layout="row" flex="60" style="padding-top: 250px; padding-left: 250px;" layout-align="center center">
+
+		<md-card ng-show="visibleScreen == 0" style="min-width:550px;">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    
+                    <h2>
+                        <span class="md-title">Placard Tips</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-card-content style="padding-left: 24px;padding-right: 32px; padding-top: 24px">
+                <md-content>
+                    <br>
+                    <div class="layout-column">
+                        <md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex-100">
+                            <md-icon md-svg-src="../img/icons/ic_email_24px.svg" class="email" aria-hidden="true"></md-icon>
+                            <input type="text"  placeholder="E-mail" ng-model="$parent.login_email" ng-required="true" ng-keydown="$event.which===13 && login()" class="ng-pristine ng-untouched md-input ng-invalid ng-invalid-required ng-valid-email" aria-label="login.label.email" id="input_0" required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>
+                        <md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex">
+							<md-icon md-svg-icon="../img/icons/ic_vpn_key_24px.svg"></md-icon>
+                            <input type="password"  placeholder="Palavra passe" ng-model="$parent.login_password" ng-required="true" ng-keydown="$event.which===13 && login()" class="ng-pristine ng-untouched md-input ng-invalid ng-invalid-required" aria-label="login.label.password" id="input_1" required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>
+                    </div>
+          
+                </md-content>
+            </md-card-content>
+            <div style="padding-bottom: 24px;" class="layout-align-center-center layout-row">
+               
+				<button class="md-raised md-primary md-button md-ink-ripple" ng-click="changeScreen(1);">
+                    Registar
+                </button>
+			   
+			   <button class="md-raised md-primary md-button md-ink-ripple" ng-click="login()">
+                    Entrar
+                </button>
+					
+            </div>
+        </md-card>
+		
+		
+		<md-card ng-show="visibleScreen == 1" style="min-width:550px;">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    
+                    <h2>
+                        <span class="md-title">Placard Tips</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-card-content style="padding-left: 24px;padding-right: 32px; padding-top: 24px">
+                <md-content>
+                    <br>
+                    <div class="layout-column">
+                        <md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex">
+                            <md-icon md-svg-src="../img/icons/ic_email_24px.svg"></md-icon>
+                            <input type="text"  placeholder="E-mail" ng-model="$parent.register_email" ng-required="true" ng-keydown="$event.which===13 && register()" aria-label="login.label.email"  required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>
+						<md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex">
+                            <md-icon md-svg-src="../img/icons/ic_person_24px.svg"></md-icon>
+                            <input type="text"  placeholder="Username" ng-model="$parent.register_username" ng-required="true" ng-keydown="$event.which===13 && register()" aria-label="login.label.username"  required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>
+						
+						<md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex">
+                            <md-icon md-svg-src="../img/icons/ic_monochrome_photos_24px.svg"></md-icon>
+                            <input type="file"  placeholder="Foto" ng-model="$parent.register_photo" base-sixty-four-input ng-required="true" ng-keydown="$event.which===13 && register()" aria-label="login.label.username"  required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>							
+
+							  						
+						
+                        <md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex">
+							<md-icon md-svg-icon="../img/icons/ic_vpn_key_24px.svg"></md-icon>
+                            <input type="password"  placeholder="Palavra passe" ng-model="$parent.register_password" ng-required="true" ng-keydown="$event.which===13 && register()" class="ng-pristine ng-untouched md-input ng-invalid ng-invalid-required" aria-label="login.label.password" required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>
+						<md-input-container md-no-float="" class="md-input-has-placeholder md-has-icon flex">
+							<md-icon md-svg-icon="../img/icons/ic_vpn_key_24px.svg"></md-icon>
+                            <input type="password"  placeholder="Confirmar palavra passe" ng-model="$parent.register_confpassword" ng-required="true" ng-keydown="$event.which===13 && register()" class="ng-pristine ng-untouched md-input ng-invalid ng-invalid-required" aria-label="login.label.password" required="required" aria-required="true" aria-invalid="true">
+                        </md-input-container>
+                    </div>
+          
+                </md-content>
+            </md-card-content>
+            <div style="padding-bottom: 24px;" class="layout-align-center-center layout-row">    
+
+				<button class="md-raised md-primary md-button md-ink-ripple" ng-click="changeScreen(0);">
+                    Login
+                </button> 			
+				<button class="md-raised md-primary md-button md-ink-ripple" ng-click="register();">
+                    Registar
+                </button>
+            </div>
+        </md-card>
+</div>
+</div>
+<div ng-show="visibleScreen == 3">
+ <md-content>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+	  
+		
+        <img ng-src="data:image/png;base64,{{photo}}" data-err-src="../img/avatar.png" class="avatar-frame" alt="Avatar" />
+		
+		<span flex></span>
+		
+        <h2>
+          <span>{{username}}</span>
+        </h2>
+		<md-button class="md-icon-button" aria-label="Settings">
+          <md-icon md-svg-icon="../img/icons/ic_menu_white_48px.svg"></md-icon>
+        </md-button>
+		<md-button ng-click="logout()" class="md-icon-button">
+          <md-icon md-svg-icon="../img/icons/ic_error_outline_48px.svg"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+ </md-content>
+ 
+<div layout="column" ng-cloak>
+  <section layout="row" flex = "100">
+    <md-sidenav flex = "25" class="md-sidenav-left md-whiteframe-z3" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+
+      <md-content layout-padding>
+
+		
+	<md-toolbar class="md-theme-light">
+		<h2 class="md-toolbar-tools">
+		  <span>Selection</span>
+		</h2>
+	  </md-toolbar>
+		<md-content>
+			<md-list>
+			  <md-list-item class="md-3-line" ng-repeat="x in selectedGames">
+				<div class="md-list-item-text">
+				  <h3>{{x.selectedTeam}}</h3>
+				  <h4>{{x.home}} - {{x.away}}</h4>
+				 
+				</div>
+								<md-divider></md-divider>
+
+				<h5 style="padding-top:15px; padding-right:15px;"><b>{{x.selectedOdd}}</b></h5>
+				<md-icon ng-click="removeSelection(x.home, x.away, x.selectedTeam, x.selectedOdd);" md-svg-icon="../img/icons/ic_close_24px.svg"></md-icon>
+
+			  </md-list-item>
+			  
+			  
+			  <md-list-item style="padding-top: 30px; background-color: rgba(140, 158, 255, 0.23);" ng-if="selectedGames.length > 0">
+				<div class="md-list-item-text">
+				 		
+
+				<div flex="100" layout layout-sm="column">
+						<md-input-container flex="40">
+						  <label>Odds</label>
+						  <input disabled ng-model="totalCost">
+						</md-input-container>
+						<md-input-container style="padding-left: 15px;" flex="80">
+						  <label>Bet</label>
+						    <md-select ng-model="$parent.selectedAmount" ng-change="updateTotalCostFinal()">
+								<md-option ng-repeat="bet in betValues" ng-value="{{bet.value}}">
+								  {{bet.display}}
+								</md-option>
+							</md-select>
+						</md-input-container>	
+						
+				</div>	
+				<div flex="100" layout layout-sm="column">
+							<md-input-container  flex="40">
+						  <label>Total</label>
+						  <input disabled ng-model="totalCostFinal">
+						</md-input-container>	
+				</div>
+				<md-button ng-click="submitBets()" flex md-no-ink class="md-primary">Submeter</md-button>
+				</div>	
+				<md-divider ></md-divider>
+				      
+
+			  </md-list-item>
+			</md-list>
+		  </md-content>  
+		 
+        </p>
+      </md-content>
+    </md-sidenav>
+    <md-content flex layout-padding>
+      <div layout="column" layout-fill layout-align="top center">
+	  
+<!-- CONTENT -->
+
+
+		  
+		  
+<md-data-table-toolbar>
+  <h2 class="md-title">Games</h2>
+</md-data-table-toolbar>
+
+
+<md-content>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Premier League">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchPremierLeague()' ng-model="premierLeagueSearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="premierLeagueSearch.length > 0" ng-click="cleanPremierLeague()" md-svg-icon="../img/icons/ic_close_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+         <md-data-table-container>		
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th>     
+					<th name="Date/Hour"></th>  				
+				  </tr>
+				</thead>
+				<tbody>
+
+				  <tr ng-repeat="x in premierLeagueGames" ng-if="x.visible == true" md-auto-select>
+					<td class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 1, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 1, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 1, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+      <md-tab label="La Liga">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchLaLiga()' ng-model="laLigaSearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="laLigaSearch.length > 0" ng-click="cleanLaLiga()" md-svg-icon="../img/icons/ic_close_black_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+
+          <md-data-table-container>
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th>  
+					<th name="Date/Hour"></th>  									
+				  </tr>
+				</thead>
+				<tbody>
+
+				  <tr ng-repeat="x in laLigaGames" ng-if="x.visible == true" md-auto-select>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 2, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 2, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 2, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+      <md-tab label="Serie A">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchSerieA()' ng-model="serieASearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="serieASearch.length > 0" ng-click="cleanSerieA()" md-svg-icon="../img/icons/ic_close_black_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+         <md-data-table-container>
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th> 
+					<th name="Date/Hour"></th>  									
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat="x in serieAGames" ng-if="x.visible == true" md-auto-select>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 3, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 3, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 3, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+	   <md-tab label="Primeira Liga">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchPrimeiraLiga()' ng-model="primeiraLigaSearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="primeiraLigaSearch.length > 0" ng-click="cleanPrimeiraLiga()" md-svg-icon="../img/icons/ic_close_black_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+
+         <md-data-table-container>
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th>   
+					<th name="Date/Hour"></th>  									
+				  </tr>
+				</thead>
+				<tbody>			
+
+				  <tr ng-repeat="x in primeiraLigaGames" ng-if="x.visible == true" md-auto-select>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 4, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 4, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 4, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+	  
+	   <md-tab label="BundesLiga">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchBundesLiga()' ng-model="bundesligaSearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="bundesligaSearch.length > 0" ng-click="cleanBundesliga()" md-svg-icon="../img/icons/ic_close_black_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+
+         <md-data-table-container>
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th>     
+					<th name="Date/Hour"></th>  				
+				  </tr>
+				</thead>
+				<tbody>		
+
+				  <tr ng-repeat="x in bundesLigaGames" ng-if="x.visible == true" md-auto-select>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 5, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 5, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 5, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+	  
+	  <md-tab label="Ligue 1">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchLigueOne()' ng-model="ligueOneSearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="ligueOneSearch.length > 0" ng-click="cleanLigueOne()" md-svg-icon="../img/icons/ic_close_black_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+
+         <md-data-table-container>
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th>     
+					<th name="Day/Hour"></th>     
+				  </tr>
+				</thead>
+				<tbody>
+		
+				  <tr ng-repeat="x in ligueOneGames" ng-if="x.visible == true" md-auto-select>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 6, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 6, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 6, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+	  
+	  <md-tab label="Champions League">
+        <md-content class="md-padding">
+		
+		<md-data-table-toolbar>
+			<md-icon md-svg-icon="../img/icons/ic_search_24px.svg"></md-icon>
+				<md-input-container flex>
+				  <label>Search</label>
+				  <input ng-change='searchChampionsLeague()' ng-model="championsLeagueSearch">
+				</md-input-container>
+			<md-icon class="hand" ng-if="championsLeagueSearch.length > 0" ng-click="cleanChampionsLeague()" md-svg-icon="../img/icons/ic_close_black_24px.svg"></md-icon>
+		</md-data-table-toolbar>
+
+
+         <md-data-table-container>
+			  <table md-data-table md-progress="deferred">
+				<thead md-order="query.order" md-trigger="onOrderChange">
+				  <tr>
+					<th name="Home"></th>
+					<th name="Draw"></th>
+					<th name="Away"></th>     
+					<th name="Date/Hour"></th>  				
+				  </tr>
+				</thead>
+				<tbody>
+
+				  <tr ng-repeat="x in championsLeagueGames" ng-if="x.visible == true" md-auto-select>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 0) == true}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 7, 1, x.day, x.hour)'>{{x.home}} - {{x.homeOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 1)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 7, 0, x.day, x.hour)'>Empate - {{x.drawOdd}}</td>
+					<td  class="hand" ng-class="{selected: gotSelected({{$index}}, 2)}" ng-click='addGame(x.home, x.away, x.homeOdd, x.drawOdd, x.awayOdd, 7, 2, x.day, x.hour)'>{{x.away}} - {{x.awayOdd}}</td>	
+					<td>{{x.day}} / {{x.hour}}</td>
+				  </tr>
+				</tbody>
+			  </table>
+						  
+			</md-data-table-container>
+        </md-content>
+      </md-tab>
+	  
+	 
+    </md-tabs>
+  </md-content>
+<!-- CONTENT END-->
+
+      </div>
+      <div flex></div>
+    </md-content>
+    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Sidenav Right</h1>
+      </md-toolbar>
+      <md-content ng-controller="RightCtrl" layout-padding>
+        <form>
+          <md-input-container>
+            <label for="testInput">Test input</label>
+            <input type="text" id="testInput"
+                   ng-model="data" md-autofocus>
+          </md-input-container>
+        </form>
+        <md-button ng-click="close()" class="md-primary">
+          Close Sidenav Right
+        </md-button>
+      </md-content>
+    </md-sidenav>
+  </section>
+</div>
+</div>
+</body>
+</html>

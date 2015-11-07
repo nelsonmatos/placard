@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html >
+
+	<script data-require="angular.js@1.4.3" data-semver="1.4.3" src="https://code.angularjs.org/1.4.3/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
+
+	<script src= "../app.js"></script>
+	<script src= "../controllers/meo_music_controller.js"></script>
+	<script src= "../services/meo_music_service.js"></script>
+	
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+	
+	    <!-- Angular Material Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-aria.min.js"></script>
+	
+    <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+	
+	<link href="../bower_components/angular-material-data-table/dist/md-data-table.min.css" rel="stylesheet" type="text/css"/>
+	<!-- module -->
+	<script type="text/javascript" src="../bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+<head>
+	<style>
+		.selected {background-color:#F37E78}
+	</style>
+</head>
+<body ng-app="MyApp" ng-controller="DemoCtrl">
+
+  <md-content layout="column" layout-sm="column" layout-align="center center">
+    <form name="userForm">
+		<body layout="column" ng-app="app">
+		  <div layout="column" layout-sm="column" layout-align="start center">
+			<md-input-container >
+			  <label>First name</label>
+			  <input ng-model="user.firstName">
+			</md-input-container>
+			<md-input-container>
+			  <label>Last Name</label>
+			  <input ng-model="theMax">
+			</md-input-container>
+		  </div>
+		</body>
+      
+    </form>
+  </md-content>
+
+</body>
+</html>

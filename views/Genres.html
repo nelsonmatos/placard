@@ -1,0 +1,25 @@
+ <table class="table table-striped">
+    <thead>
+      <tr>
+		   <th id="head">Name</th>
+		   <th id="head">Followers</th>
+		   <th id="head">Total Artists</th>
+		   <th id="head">Total Albums</th>
+		   <th id="head">Total Tracks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in results.genres.results">
+		  <td id="text">{{ x.name }}</td>
+		  <td id="text">{{ x.followers }}</td>
+		  <td id="text">{{ x.artists_count }}</td>
+		  <td id="text">{{ x.albums_count }}</td>
+		  <td id="text">{{ x.tracks_count }}</td>
+      </tr>
+	  
+	   <tr ng-if="results.genres.total == 0">
+		  <td colspan="5" id="text">Genres Not Found</td>
+      </tr>
+	  
+    </tbody>
+ </table>
