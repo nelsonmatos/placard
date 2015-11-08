@@ -1,6 +1,6 @@
 <?php
 
-	$dbconn3 = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=admin");
+	$dbconn3 = pg_connect("host='$OPENSHIFT_POSTGRESQL_DB_HOST' port='$OPENSHIFT_POSTGRESQL_DB_PORT' dbname=v1 user=adminy5ttxew password=IZdGfGX6kCHl");
 	$result = pg_query($dbconn3, "SELECT * from la_liga");
 	
 	$games = [];

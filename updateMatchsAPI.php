@@ -4,7 +4,7 @@
 	ini_set('max_execution_time', 500); //300 seconds = 5 minutes
 	$xml = simplexml_load_string(file_get_contents("http://xml.cdn.betclic.com/odds_en.xml"));
 
-	$dbconn3 = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=admin");
+	$dbconn3 = pg_connect("host='$OPENSHIFT_POSTGRESQL_DB_HOST' port='$OPENSHIFT_POSTGRESQL_DB_PORT' dbname=v1 user=adminy5ttxew password=IZdGfGX6kCHl");
 	$result = pg_query($dbconn3, "SELECT delete_all()");
 	pg_close($dbconn3);
 								
@@ -108,7 +108,7 @@
    
     function getMatchs($league, $flag){
 		$games = [];
-		$dbconn3 = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=admin");
+		$dbconn3 = pg_connect("host='$OPENSHIFT_POSTGRESQL_DB_HOST' port='$OPENSHIFT_POSTGRESQL_DB_PORT' dbname=v1 user=adminy5ttxew password=IZdGfGX6kCHl");
 
 		foreach($league->match as $match_) {
 			$game = (string)$match_->attributes()->name;
